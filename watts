@@ -1,0 +1,15 @@
+#!/usr/bin/env python
+
+import subprocess
+
+def last_token(s):
+    return s.split(" ")[-1]
+#end
+
+volt_str = subprocess.check_output("voltage")
+amp_str = subprocess.check_output("amps")
+
+v = last_token(volt_str)
+a = last_token(amp_str)
+
+print (int(v)*int(a)*-1e-6)
