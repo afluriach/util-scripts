@@ -1,0 +1,4 @@
+#!/bin/bash
+
+system_profiler SPPowerDataType -xml -detailLevel mini  > /tmp/PowerData.plist
+/Users/toni/scripts/util/update_battery_log

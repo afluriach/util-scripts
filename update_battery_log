@@ -1,0 +1,33 @@
+#!/usr/bin/env python
+
+#import os
+import plistlib
+import time
+
+#Call system profiler and read in the data.
+def read_system_data():
+#	os.system("system_profiler SPPowerDataType -xml -detailLevel mini  > /tmp/PowerData.plist")
+	data = plistlib.readPlist('/tmp/PowerData.plist')
+
+	timestamp = time.strftime("%y-%m-%d %H:%M:%S")
+	
+	#Note, already integer value.
+	voltage = data[0]['_items'][0]['sppower_current_voltage']
+	amperage =  data[0]['_items'][0]['sppower_current_amperage']
+	
+	ac_connected = data[0]['_items'][3]['sppower_battery_charger_connected']
+	is_charging = data[0]['_items'][3]['sppower_battery_is_charging']
+	
+	capacity = data[0]['_items'][0]['sppower_battery_charge_info']['sppower_battery_current_capacity']
+	max_capacity =  data[0]['_items'][0]['sppower_battery_charge_info']['sppower_battery_max_capacity']
+	
+	#return a CSV line
+	return ','.join([timestamp,str(voltage),str(amperage),str(capacity),str(max_capacity),ac_connected, is_charging])
+#end
+
+fout = open('/var/log/battery/battery.log', 'a')
+entry = read_system_data()
+
+fout.write(entry)
+fout.write('\n')
+fout.close()
