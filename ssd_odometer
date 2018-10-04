@@ -1,0 +1,6 @@
+#!/bin/bash
+
+smart_data=`smartctl -a /dev/disk0`
+
+echo "$smart_data" | grep "Host_Reads_MiB"
+echo "$smart_data" | grep "Host_Writes_MiB"
